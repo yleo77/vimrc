@@ -95,7 +95,7 @@ call togglebg#map("<F5>")
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
-    set background=light
+    "set background=light
     set guioptions+=e
     set t_Co=256
     set guitablabel=%M\ %t
@@ -163,7 +163,7 @@ map <C-l> <C-W>l
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+"map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
@@ -218,3 +218,9 @@ map <leader>f2 :set filetype=js<cr>
 map <leader>f3 :set filetype=css<cr>
 
 "
+
+
+" ACK
+map <leader>a :Ack 
+" NerdTree
+map <leader>d :NERDTreeToggle<cr>
