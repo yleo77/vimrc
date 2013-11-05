@@ -161,6 +161,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+" Map Spacebar to page down 
+map <Space> <PageDown>
+
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
 "map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
@@ -192,6 +195,7 @@ nmap <F6> :so $VIMSESSION<CR>
 
 " yank to the system register (*) by default
 set clipboard=unnamed   
+
 " Windows issues
 vmap <leader>c "+y
 vmap <leader>x "+x
@@ -218,6 +222,9 @@ map <leader>f2 :set filetype=js<cr>
 map <leader>f3 :set filetype=css<cr>
 
 "
+map <leader>l <Plug>TaskList
+let g:tlWindowPosition = 1
+let g:tlTokenList = ['TODO', 'debug']
 
 
 " ACK
