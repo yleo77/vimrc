@@ -1,5 +1,9 @@
-call pathogen#infect()
+
+execute pathogen#infect()
 syntax on
+
+"let base16colorspace=256  " Access colors present in 256 colorspace
+"let g:solarized_termcolors=256
 
 "Sets how many lines of history VIM has to remember
 set history=500
@@ -15,6 +19,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 nmap ; :
+imap jj <ESC>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -27,7 +32,7 @@ set so=7
 "Turn on WiLd menu
 set wildmenu
 set wildmode=longest,full
-set wildignore=*.bak,*.o,*.obj,*.e,*~,*.pyc,*.svn,*.png,*.jpg
+set wildignore=*.bak,*.o,*.obj,*.e,*~,*.pyc,*.svn,*.png,*.jpg,*logDir*
 
 
 "Always show current position
@@ -49,17 +54,17 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
@@ -67,7 +72,7 @@ set magic
 set mouse=a
 
 " Show matching brackets when text indicator is over them
-set showmatch 
+set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -80,17 +85,22 @@ set novisualbell
 set t_vb=
 set tm=500
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable 
-colorscheme solarized
+syntax enable
+syntax on
+set t_Co=256  "256 color schemes
+"colorscheme solarized
 "colorscheme flatland
-set background=dark
+"colorscheme dracula
+colorscheme onedark
+"set background=dark
+
+"set background=light
 " Toggle Backgroundcolor
-call togglebg#map("<F5>")
+"call togglebg#map("<F5>")
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -109,7 +119,7 @@ set encoding=utf8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-" fileencodings 
+" fileencodings
 let &termencoding=&encoding
 set fileencodings=utf-8,gbk
 
@@ -133,8 +143,8 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
@@ -154,6 +164,7 @@ map j gj
 map k gk
 
 map <silent><leader>/ :nohl<cr>
+map <silent><leader>t :CtrlP<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
@@ -161,7 +172,7 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Map Spacebar to page down 
+" Map Spacebar to page down
 map <Space> <PageDown>
 
 " Opens a new tab with the current buffer's path
@@ -194,7 +205,7 @@ au VimLeave * mks! $VIMSESSION
 nmap <F6> :so $VIMSESSION<CR>
 
 " yank to the system register (*) by default
-set clipboard=unnamed   
+set clipboard=unnamed
 
 " Windows issues
 vmap <leader>c "+y
@@ -228,6 +239,82 @@ let g:tlTokenList = ['TODO', 'debug']
 
 
 " ACK
-map <leader>a :Ack 
+map <leader>a :Ack
 " NerdTree
 map <leader>d :NERDTreeToggle<cr>
+
+"plugin config
+let g:jsx_ext_required = 0
+
+" autocomplete
+" tag, filename, whole name
+inoremap <C-]> <C-X><C-]>
+inoremap <C-F> <C-X><C-F>
+inoremap <C-L> <C-X><C-L>
+
+"noremap <silent> <Left> :bp<CR>
+"noremap <silent> <Right> :bn<CR>
+
+"nnoremap \ :!open <C-R>%<CR><CR>
+
+
+"整行补全                        CTRL-X CTRL-L
+"根据字典补全                    CTRL-X CTRL-K
+"根据标签补全                    CTRL-X CTRL-]
+"补全文件名                      CTRL-X CTRL-F
+
+"echo $VIMRUNTIME
+
+" 搜索替换 alias
+" nmap S :%s///g<LEFT><LEFT><LEFT>
+"
+
+" http://linux-wiki.cn/wiki/zh-hans/Vim%E4%BB%A3%E7%A0%81%E7%BC%A9%E8%BF%9B%E8%AE%BE%E7%BD%AE
+"
+
+let g:jsx_ext_required = 0
+
+"ack config
+let g:ackprg = 'ag --vimgrep'
+
+"nerdtree config
+autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" NERDTress File highlighting
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+
+" ctrlp config
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+"let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+"let g:ctrlp_max_files=10000
+" Ignore some folders and files for CtrlP indexing
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.yardoc\|public$|log\|tmp$',
+  \ 'file': '\.so$\|\.dat$|\.DS_Store$'
+  \ }
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore node_modules
+      \ --ignore target
+      \ --ignore .DS_Store
+      \ --ignore "**/*.class"
+      \ --ignore "**/*.pyc"
+      \ -g ""'
+
+let g:ctrlp_cmd='CtrlP :pwd'
+let g:ctrlp_working_path_mode = 0
